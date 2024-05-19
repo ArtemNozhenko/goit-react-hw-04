@@ -1,11 +1,16 @@
 import { Formik, Field, Form } from "formik";
+import toast from "react-hot-toast";
 
-export default function SearchBar({ onSubmit }) {
+export default function SearchBar({ onSearch }) {
   return (
     <Formik
       initialValues={{ query: "" }}
       onSubmit={(values, actions) => {
-        onSubmit(values.query);
+        if (values.query.trim() === "") {
+          toast.error("This is an error!");
+        } else {
+          onSearch(values.query.trim());
+        }
         actions.resetForm();
       }}
     >
@@ -13,8 +18,8 @@ export default function SearchBar({ onSubmit }) {
         <Field
           name="query"
           type="text"
-          autocomplete="off"
-          autofocus
+          autoComplete="off"
+          autoFocus
           placeholder="Search images and photos"
         />
         <button type="submit">Search</button>
