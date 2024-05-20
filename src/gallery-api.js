@@ -8,7 +8,7 @@ export const getGallery = async (query, currentPage) => {
       "fZ_zrhTQ1bwT0o3zUfC0ni-94UsC_dnbA1zhnvTbBOE",
     query: query,
     page: currentPage,
-    per_page: 2,
+    per_page: 12,
   };
   const response = await axios.get("/search/photos", {
     params,

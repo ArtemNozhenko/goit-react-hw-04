@@ -8,6 +8,7 @@ import SearchBar from "../SearchBar/SearchBar";
 import Loader from "../Loader/Loader";
 import ErrorMessage from "../ErrorMessage/ErrorMessage";
 import LoadMoreBtn from "../LoadMoreBtn/LoadMoreBtn";
+import ImageModal from "../ImageModal/ImageModal";
 
 export default function App() {
   const [gallery, setGallery] = useState([]);
@@ -15,6 +16,8 @@ export default function App() {
   const [isError, setIsError] = useState(false);
   const [page, setPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState("");
+  const [modalIsOpen, setIsOpen] = useState(false);
+  const [image, setImage] = useState("");
 
   useEffect(() => {
     if (searchQuery === "") {
@@ -45,18 +48,35 @@ export default function App() {
     setPage(page + 1);
   };
 
+  const openModal = (image) => {
+    setImage(image);
+    setIsOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsOpen(false);
+  };
+
   return (
     <>
       <Toaster />
       <SearchBar onSearch={handleSearch} />
       {isError && <ErrorMessage />}
       {gallery.length > 0 && (
-        <ImageGallery items={gallery} />
+        <ImageGallery
+          items={gallery}
+          onImageClick={openModal}
+        />
       )}
       {isLoading && <Loader />}
       {gallery.length > 0 && !isLoading && (
         <LoadMoreBtn click={handLoadMore} />
       )}
+      <ImageModal
+        isOpen={modalIsOpen}
+        onClose={closeModal}
+        urlImage={image}
+      />
     </>
   );
 }

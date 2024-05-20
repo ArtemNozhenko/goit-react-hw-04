@@ -7,7 +7,7 @@ export default function SearchBar({ onSearch }) {
       initialValues={{ query: "" }}
       onSubmit={(values, actions) => {
         if (values.query.trim() === "") {
-          toast.error("This is an error!");
+          toast.error("Fill in the input field!");
         } else {
           onSearch(values.query.trim());
         }
