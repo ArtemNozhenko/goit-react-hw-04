@@ -1,14 +1,13 @@
 import { useState, useEffect } from "react";
 import { getGallery } from "../../gallery-api";
-import "./App.module.css";
-import ImageGallery from "../ImageGallery/ImageGallery";
 import { Toaster } from "react-hot-toast";
+import ImageGallery from "../ImageGallery/ImageGallery";
 import SearchBar from "../SearchBar/SearchBar";
-// import axios from "axios";
 import Loader from "../Loader/Loader";
 import ErrorMessage from "../ErrorMessage/ErrorMessage";
 import LoadMoreBtn from "../LoadMoreBtn/LoadMoreBtn";
 import ImageModal from "../ImageModal/ImageModal";
+import "./App.module.css";
 
 export default function App() {
   const [gallery, setGallery] = useState([]);
@@ -54,6 +53,7 @@ export default function App() {
   };
 
   const closeModal = () => {
+    setImage("");
     setIsOpen(false);
   };
 

@@ -1,6 +1,9 @@
 import Modal from "react-modal";
 
 const customStyles = {
+  overlay: {
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+  },
   content: {
     top: "50%",
     left: "50%",
@@ -8,6 +11,9 @@ const customStyles = {
     bottom: "auto",
     marginRight: "-50%",
     transform: "translate(-50%, -50%)",
+    border: "none",
+    background: "none",
+    overflow: "visible",
   },
 };
 
@@ -16,23 +22,14 @@ Modal.setAppElement("#root");
 export default function ImageModal({
   urlImage,
   isOpen,
-  closeModal,
+  onClose,
 }) {
-  //   let subtitle;
-
-  //   function afterOpenModal() {
-  //     // references are now sync'd and can be accessed.
-  //     subtitle.style.color = "#f00";
-  //   }
-
   return (
     <div>
       <Modal
         isOpen={isOpen}
-        // onAfterOpen={afterOpenModal}
-        onRequestClose={closeModal}
+        onRequestClose={onClose}
         style={customStyles}
-        contentLabel="Example Modal"
       >
         <img src={urlImage} alt="Large" />
       </Modal>
