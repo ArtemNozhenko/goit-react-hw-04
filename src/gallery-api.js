@@ -13,5 +13,5 @@ export const getGallery = async (query, currentPage) => {
   const response = await axios.get("/search/photos", {
     params,
   });
-  return response.data.results;
+  return response.data;
 };

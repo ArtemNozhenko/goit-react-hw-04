@@ -7,7 +7,7 @@ import Loader from "../Loader/Loader";
 import ErrorMessage from "../ErrorMessage/ErrorMessage";
 import LoadMoreBtn from "../LoadMoreBtn/LoadMoreBtn";
 import ImageModal from "../ImageModal/ImageModal";
-import "./App.module.css";
+import css from "./App.module.css";
 
 export default function App() {
   const [gallery, setGallery] = useState([]);
@@ -17,6 +17,7 @@ export default function App() {
   const [searchQuery, setSearchQuery] = useState("");
   const [modalIsOpen, setIsOpen] = useState(false);
   const [image, setImage] = useState("");
+  const [hasLoadMore, setHasLoadMore] = useState(false);
 
   useEffect(() => {
     if (searchQuery === "") {
@@ -26,8 +27,15 @@ export default function App() {
       try {
         setIsLoading(true);
         setIsError(false);
-        const data = await getGallery(searchQuery, page);
-        setGallery((prevState) => [...prevState, ...data]);
+        const { results, total } = await getGallery(
+          searchQuery,
+          page
+        );
+        setGallery((prevState) => [
+          ...prevState,
+          ...results,
+        ]);
+        setHasLoadMore(page < Math.ceil(total / 12));
       } catch {
         setIsError(true);
       } finally {
@@ -58,7 +66,7 @@ export default function App() {
   };
 
   return (
-    <>
+    <div className={css.container}>
       <Toaster />
       <SearchBar onSearch={handleSearch} />
       {isError && <ErrorMessage />}
@@ -69,7 +77,7 @@ export default function App() {
         />
       )}
       {isLoading && <Loader />}
-      {gallery.length > 0 && !isLoading && (
+      {hasLoadMore && !isLoading && (
         <LoadMoreBtn click={handLoadMore} />
       )}
       <ImageModal
@@ -77,6 +85,6 @@ export default function App() {
         onClose={closeModal}
         urlImage={image}
       />
-    </>
+    </div>
   );
 }
